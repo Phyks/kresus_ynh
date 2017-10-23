@@ -28,7 +28,7 @@ fi
 
 # Install dependencies
 apt-get update
-apt-get install nodejs-legacy npm python-pip python-dev python-lxml python-imaging -y -qq
+apt-get install nodejs npm python-pip python-dev python-lxml python-imaging -y -qq
 pip install weboob
 
 # Install Kresus
