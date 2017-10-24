@@ -36,7 +36,7 @@ curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
 # Install dependencies
 apt-get update
-apt-get install -qy nodejs npm python-pip python-dev python-lxml python-imaging
+apt-get install -qy nodejs python-pip python-dev python-lxml python-imaging
 pip install weboob
 
 # Install Kresus
