@@ -34,6 +34,10 @@ apt-get -y install curl apt-transport-https ca-certificates
 echo "deb https://deb.nodesource.com/node_6.x jessie main" > /etc/apt/sources.list.d/nodesource.list
 curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
+# Add jessie-backports + debian keuring (necessary to get the signing key of packages from backports)
+apt-get -y install debian-archive-keyring
+echo "deb http://deb.debian.org/debian jessie-backports main" > /etc/apt-sources.list.d/backports.list
+
 # Install dependencies
 apt-get update
 apt-get install -qy nodejs python-pip python-dev python-lxml python-imaging python-future python-six
