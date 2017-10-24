@@ -27,7 +27,7 @@ else
 fi
 
 # Create data/install forlder
-sudo -u $app mkdirp $install_path/data
+sudo -u $app mkdir -p $install_path/data
 
 # Add nodejs repo
 apt-get -y install curl apt-transport-https ca-certificates
