@@ -26,6 +26,9 @@ else
     ynh_system_user_create "$app" "$install_path"
 fi
 
+# Create data/install forlder
+sudo -u $app mkdirp $install_path/data
+
 # Install dependencies
 apt-get update
 apt-get install -qy nodejs npm python-pip python-dev python-lxml python-imaging
@@ -39,9 +42,21 @@ nginx_conf=../conf/nginx.conf
 sed -i "s@YNH_WWW_PATH@$path@g" $nginx_conf
 sudo cp $nginx_conf /etc/nginx/conf.d/$domain.d/$app.conf
 
+# Setup kresus
+$kresus_conf=../conf/conf.ini
+sed -i "s@YNH_DATA_DIR@$install_path@" $kresus_conf
+sed -i "s@KRESUS_PATH@$path@" $kresus_conf
+sed -i "s@YNH_APP_ARG_DOMAIN@$domain@" $ $kresus_conf
+
+config_path=$install_path/config.ini
+sudo -u $app cp $kresus_conf $config_path
+# Make kresus config file read only.
+sudo chmod 600 $install_path/config.ini
+
 # Setup service
 systemd_service=../conf/kresus.service
 sed -i "s@YNH_HOME@$install_path@g" $systemd_service
+sed -i "s@YNH_CONFIG_PATH@config_path@" $systemd_service
 sudo cp $systemd_service /etc/systemd/system/$app.service
 systemctl enable $app
 systemctl start $app
