@@ -26,6 +26,9 @@ else
     ynh_system_user_create "$app" "$install_path"
 fi
 
+# Get port
+port=$(ynh_find_port 9876)
+
 # Create data/install forlder
 sudo -u $app mkdir -p $install_path/data
 
@@ -53,6 +56,7 @@ sed -i "s@YNH_DATA_DIR@$install_path@" $kresus_conf
 sed -i "s@KRESUS_PATH@$path@" $kresus_conf
 sed -i "s@YNH_APP_ARG_DOMAIN@$domain@" $kresus_conf
 sed -i "s@YNH_USER@$app@" $kresus_conf
+sed -i "s@YNH_PORT@$port@" $kresus_conf
 
 config_path=$install_path/config.ini
 sudo -u $app cp $kresus_conf $config_path
