@@ -57,7 +57,7 @@ sed -i "s@YNH_USER@$app@" $kresus_conf
 config_path=$install_path/config.ini
 sudo -u $app cp $kresus_conf $config_path
 # Make kresus config file read only.
-sudo chmod 600 $install_path/config.ini
+sudo chmod 600 $config_path
 
 # Setup service
 systemd_service=../conf/kresus.service
