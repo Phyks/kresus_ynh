@@ -57,6 +57,9 @@ sudo chmod 600 $install_path/config.ini
 systemd_service=../conf/kresus.service
 sed -i "s@YNH_HOME@$install_path@g" $systemd_service
 sed -i "s@YNH_CONFIG_PATH@config_path@" $systemd_service
+sed -i "s@YNH_USER@$app@" $systemd_service
+sed -i "s@YNH_GROUP@$app@" $systemd_service
+
 sudo cp $systemd_service /etc/systemd/system/$app.service
 systemctl enable $app
 systemctl start $app

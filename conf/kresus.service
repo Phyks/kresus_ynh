@@ -8,7 +8,8 @@ Environment=NODE_ENV=production HOME=YNH_HOME
 ExecStart=YNH_HOME/node_modules/kresus/bin/kresus.js --config YNH_CONFIG_PATH
 Type=simple
 Restart=always
-
+User=YNH_USER
+Group=YNH_GROUP
 StandardOutput=journal
 StandardError=inherit
 SyslogIdentifier=kresus
