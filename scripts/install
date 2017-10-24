@@ -29,6 +29,11 @@ fi
 # Create data/install forlder
 sudo -u $app mkdirp $install_path/data
 
+# Add nodejs repo
+apt-get -y install curl apt-transport-https ca-certificates
+echo "deb https://deb.nodesource.com/node_6.x jessie main" > /etc/apt/sources.list.d/nodesource.list
+curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+
 # Install dependencies
 apt-get update
 apt-get install -qy nodejs npm python-pip python-dev python-lxml python-imaging
