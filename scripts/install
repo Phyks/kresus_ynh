@@ -48,7 +48,7 @@ sed -i "s@YNH_WWW_PATH@$path@g" $nginx_conf
 sudo cp $nginx_conf /etc/nginx/conf.d/$domain.d/$app.conf
 
 # Setup kresus
-$kresus_conf=../conf/conf.ini
+kresus_conf=../conf/conf.ini
 sed -i "s@YNH_DATA_DIR@$install_path@" $kresus_conf
 sed -i "s@KRESUS_PATH@$path@" $kresus_conf
 sed -i "s@YNH_APP_ARG_DOMAIN@$domain@" $ $kresus_conf
