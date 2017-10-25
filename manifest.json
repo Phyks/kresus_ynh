@@ -39,6 +39,15 @@
                 },
                 "example": "/kresus",
                 "default": "/kresus"
+            },
+            {
+                "name": "user",
+                "type": "user",
+                "ask": {
+                    "en": "Choose a user",
+                    "fr": "Choisissez un utilisateur"
+                },
+                "example": "Toto"
             }
         ]
     }
