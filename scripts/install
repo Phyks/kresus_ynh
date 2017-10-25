@@ -74,7 +74,7 @@ sudo chmod 600 $config_path
 # Setup service
 systemd_service=../conf/kresus.service
 sed -i "s@YNH_HOME@$install_path@g" $systemd_service
-sed -i "s@YNH_CONFIG_PATH@config_path@" $systemd_service
+sed -i "s@YNH_CONFIG_PATH@$config_path@" $systemd_service
 sed -i "s@YNH_USER@$app@" $systemd_service
 sed -i "s@YNH_GROUP@$app@" $systemd_service
 
