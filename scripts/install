@@ -22,9 +22,9 @@ yunohost app checkurl "${domain}${path}" -a "$app" \
 # Check system user availability
 if ynh_system_user_exists "$app" ; then
     ynh_die "System user $app already exists !"
-else
-    ynh_system_user_create "$app" "$install_path"
-fi
+
+smtp_password=$(dd if=/dev/urandom bs=1 count=200 2> /dev/null | tr -c -d 'A-Za-z0-9' | sed -n 's/\(.\{24\}\).*/\1/p')
+useradd -M --shell /bin/false -p $(openssl passwd -1 "$smtp_password") $app --home-dir $install_path || ynh_die "Failed to create user $app"
 
 # Get port
 port=$(ynh_find_port 9876)
@@ -43,7 +43,7 @@ echo "deb http://deb.debian.org/debian jessie-backports main" > /etc/apt/sources
 
 # Install dependencies
 apt-get update
-apt-get install -qy nodejs python-pip python-dev python-lxml python-imaging
+ynh_install_app_dependencies nodejs python-pip python-dev python-lxml python-imaging
 
 # Force installation for backports (pip/weboob need the version from backoprts)
 apt-get install -yq -t jessie-backports python-future python-six
@@ -65,6 +65,15 @@ sed -i "s@KRESUS_PATH@$path@" $kresus_conf
 sed -i "s@YNH_APP_ARG_DOMAIN@$domain@" $kresus_conf
 sed -i "s@YNH_USER@$app@" $kresus_conf
 sed -i "s@YNH_PORT@$port@" $kresus_conf
+sed -i "s@KRESUS_SMTP_PASSWORD@$smtp_password" $kresus_conf
+
+# Save conf to .yml
+ynh_app_setting_set $app domain $domain
+ynh_app_setting_set $app ynh_data_dir $install_path
+ynh_app_setting_set $app path $path
+ynh_app_setting_set $app user $app
+ynh_app_setting_set $app port $port
+ynh_app_setting_set $app smtp_password $smtp_password
 
 config_path=$install_path/config.ini
 sudo -u $app cp $kresus_conf $config_path
