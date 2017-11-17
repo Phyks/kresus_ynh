@@ -29,7 +29,6 @@ smtp_password=
 if [ $YNH_APP_ARG_SETUP_EMAIL -eq 1 ]; then
     # Create a user with passwd
     smtp_password=$(dd if=/dev/urandom bs=1 count=200 2> /dev/null | tr -c -d 'A-Za-z0-9' | sed -n 's/\(.\{24\}\).*/\1/p')
-    echo $smtp_password
     useradd -M --shell /bin/false -p $(openssl passwd -1 "$smtp_password") $app --home-dir $install_path || ynh_die "Failed to create user $app"
 else
     ynh_system_user_create $app $install_path
@@ -73,7 +72,7 @@ sed -i "s@KRESUS_PATH@$path@" $kresus_conf
 sed -i "s@YNH_APP_ARG_DOMAIN@$domain@" $kresus_conf
 sed -i "s@YNH_USER@$app@" $kresus_conf
 sed -i "s@YNH_PORT@$port@" $kresus_conf
-sed -i "s@KRESUS_SMTP_PASSWORD@$smtp_password" $kresus_conf
+sed -i "s@KRESUS_SMTP_PASSWORD@$smtp_password@" $kresus_conf
 
 # Save conf to .yml
 ynh_app_setting_set $app domain $domain
