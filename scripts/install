@@ -48,7 +48,7 @@ echo "deb http://deb.debian.org/debian jessie-backports main" > /etc/apt/sources
 
 # Install dependencies
 apt-get update
-ynh_install_app_dependencies nodejs python-pip python-dev python-lxml python-imaging
+apt-get install -y nodejs python-pip python-dev python-lxml python-imaging
 
 # Force installation for backports (pip/weboob need the version from backoprts)
 apt-get install -yq -t jessie-backports python-future python-six
