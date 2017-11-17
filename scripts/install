@@ -29,6 +29,7 @@ if [ $YNH_APP_SETUP_EMAIL = 'true']; then
     useradd -M --shell /bin/false -p $(openssl passwd -1 "$smtp_password") $app --home-dir $install_path || ynh_die "Failed to create user $app"
 else
     ynh_system_user_create $app $install_path
+fi
 # Get port
 port=$(ynh_find_port 9876)
 
