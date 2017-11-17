@@ -24,7 +24,7 @@ if ynh_system_user_exists "$app" ; then
     ynh_die "System user $app already exists !"
 fi
 
-if [ $YNH_APP_ARG_SETUP_EMAIL = 'true']; then
+if [ $YNH_APP_ARG_SETUP_EMAIL = 'true' ]; then
     # Create a user with passwd
     smtp_password=$(dd if=/dev/urandom bs=1 count=200 2> /dev/null | tr -c -d 'A-Za-z0-9' | sed -n 's/\(.\{24\}\).*/\1/p')
     useradd -M --shell /bin/false -p $(openssl passwd -1 "$smtp_password") $app --home-dir $install_path || ynh_die "Failed to create user $app"
