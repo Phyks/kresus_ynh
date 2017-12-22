@@ -80,7 +80,11 @@ ynh_app_setting_set $app ynh_data_dir $install_path
 ynh_app_setting_set $app path $path
 ynh_app_setting_set $app user $app
 ynh_app_setting_set $app port $port
-ynh_app_setting_set $app smtp_password $smtp_password
+
+# smtp_password won't be set if email emission is not configured
+if [ $YNH_APP_ARG_SETUP_EMAIL -eq 1 ]; then
+    ynh_app_setting_set $app smtp_password $smtp_password
+fi
 
 config_path=$install_path/config.ini
 sudo -u $app cp $kresus_conf $config_path
