@@ -55,6 +55,9 @@ apt-get install -y nodejs python-pip python-dev python-lxml python-imaging
 # Force installation for backports (pip/weboob need the version from backoprts)
 apt-get install -yq -t jessie-backports python-future python-six
 
+pip install -U setuptools
+pip install html2text simplejson BeautifulSoup PyExecJS unidecode
+
 pip install weboob
 
 # Install Kresus
