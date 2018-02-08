@@ -43,8 +43,8 @@ sudo -u $app mkdir -p $install_path/data
 apt-get -y install curl apt-transport-https ca-certificates
 if $(uname -m | grep -Eq ^armv6); then
     # FIXME: We should not reinstall node if already there.
-    NODE_URL="https://nodejs.org/dist/v8.9.4/node-v8.9.4-linux-armv6l.tar.xz"
-    NODE_SHASUM="501bcae62ea1769924facc9628f407d37753e7a024cf3b12a18ea9dab1b380c9"
+    NODE_URL="https://nodejs.org/dist/v6.12.3/node-v6.12.3-linux-armv6l.tar.xz"
+    NODE_SHASUM="b092240b98465dfcfaff5ea7d5916128396bdf30e9e531c2f23034a3d75a700e"
     curl -s ${NODE_URL} -o /tmp/node.tar.xz
     computed_shasum=$(sha256sum /tmp/node.tar.xz | awk '{print $1}')
     if [ ${NODE_SHASUM} != ${computed_shasum} ]; then
