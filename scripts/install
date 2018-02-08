@@ -41,17 +41,34 @@ sudo -u $app mkdir -p $install_path/data
 
 # Add nodejs repo
 apt-get -y install curl apt-transport-https ca-certificates
-echo "deb https://deb.nodesource.com/node_6.x jessie main" > /etc/apt/sources.list.d/nodesource.list
-curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
+if $(uname -m | grep -Eq ^armv6); then
+    # FIXME: We should not reinstall node if already there.
+    NODE_URL="https://nodejs.org/dist/v8.9.4/node-v8.9.4-linux-armv6l.tar.xz"
+    NODE_SHASUM="501bcae62ea1769924facc9628f407d37753e7a024cf3b12a18ea9dab1b380c9"
+    curl -s ${NODE_URL} -o /tmp/node.tar.xz
+    computed_shasum=$(sha256sum /tmp/node.tar.xz | awk '{print $1}')
+    if [ ${NODE_SHASUM} != ${computed_shasum} ]; then
+        ynh_die "Downloaded node binary is invalid!"
+    fi
+    cd /tmp
+    tar xvf node.tar.xz
+    sudo cp -R node-v*-linux-armv6l/* /usr/
+    rm -r node-v*-linux-armv6l*
+else
+    echo "deb https://deb.nodesource.com/node_6.x jessie main" > /etc/apt/sources.list.d/nodesource.list
+    curl -s https://deb.nodesource.com/gpgkey/nodesource.gpg.key | apt-key add -
 
-# Add jessie-backports + debian keuring (necessary to get the signing key of packages from backports)
-apt-get -y install debian-archive-keyring
-echo "deb http://deb.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
+    # Add jessie-backports + debian keyring (necessary to get the signing key of packages from backports)
+    apt-get -y install debian-archive-keyring
+    echo "deb http://deb.debian.org/debian jessie-backports main" > /etc/apt/sources.list.d/backports.list
 
-# Install dependencies
-apt-get update
-apt-get install -y nodejs python-pip python-dev python-lxml python-imaging
+    # Install NodeJS
+    apt-get update
+    apt-get install -y nodejs
+fi
 
+# Install Python dependencies
+apt-get install -y python-pip python-dev python-lxml python-imaging
 # Force installation for backports (pip/weboob need the version from backoprts)
 apt-get install -yq -t jessie-backports python-future python-six
 
